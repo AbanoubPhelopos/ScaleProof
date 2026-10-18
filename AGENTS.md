@@ -231,6 +231,7 @@ ADRs live in `docs/decisions/`. Accepted decisions are binding constraints. Prop
 | [ADR-021](docs/decisions/ADR-021-keep-postgresql-lease-queue.md) | Keep purpose-built PostgreSQL lease queue (vs Hangfire/Wolverine) | Proposed |
 | [ADR-022](docs/decisions/ADR-022-plugin-first-delivery.md) | Local CLI/sidecar first; worker orchestration and deterministic analysis; proposed partial supersession of ADR-002/009 | Proposed |
 | [ADR-023](docs/decisions/ADR-023-local-ai-assistance.md) | Local AI credentials, reviewed drafts, independent evidence explanations | Proposed |
+| [ADR-024](docs/decisions/ADR-024-contract-test-foundation.md) | Contract/unit test projects, dependency pins, offline schema and architecture checks | Proposed |
 
 ### ADR lifecycle
 

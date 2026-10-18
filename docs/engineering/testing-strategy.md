@@ -6,6 +6,11 @@ Related: [standards](standards.md#verification-and-change-reporting) · [roadmap
 
 ## Test projects and tools
 
+Proposed ([ADR-024](../decisions/ADR-024-contract-test-foundation.md)): initial
+contract/unit project setup, dependency pins, VSTest runner, offline schema
+resolution, and the contract-only requirement coverage matrix. The proposal adds
+no packages until the maintainer decision; runtime acceptance remains separate.
+
 | Layer | Project / location | Tools | Scope |
 |---|---|---|---|
 | Unit | `tests/ScaleProof.UnitTests` | xUnit v3, FsCheck (property tests) | Domain rules, policy, canonicalization, hashing, state graph, statistics, percentiles, threshold evaluation, redaction, checks |
