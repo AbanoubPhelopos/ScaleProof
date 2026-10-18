@@ -2,6 +2,11 @@
 
 These are operating instructions for AI coding agents (and humans) working in this repository. The format follows the [agents.md](https://agents.md) convention. Tool-specific files (`CLAUDE.md`, `.github/copilot-instructions.md`, …) should only point here.
 
+If `GITHUB_RULES.md` exists in this checkout, read it before phase, commit, review,
+or PR work. It contains local workflow instructions and is intentionally ignored
+by Git; checkouts without it remain usable. It does not change specification
+precedence, accept Proposed ADRs, or configure GitHub enforcement.
+
 ## What this project is
 
 ScaleProof is a self-hosted tool that turns backend load tests into reproducible experiments:

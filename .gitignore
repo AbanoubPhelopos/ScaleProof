@@ -8,3 +8,7 @@ web/scaleproof-web/dist/
 .env
 .env.*
 !.env.example
+
+# Local workflow rules (not GitHub-enforced configuration)
+/GITHUB_RULES.md
+/.scaleproof-work/
