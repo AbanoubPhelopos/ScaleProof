@@ -1,0 +1,26 @@
+name: Bug report
+description: Something does not behave as the docs/specs describe
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Security issues: do NOT file here. See SECURITY.md."
+  - type: textarea
+    id: what
+    attributes: { label: What happened, description: Include the run ID, lifecycle, qualityStatus, and terminationReason if relevant. }
+    validations: { required: true }
+  - type: textarea
+    id: expected
+    attributes: { label: Expected behavior, description: Link the spec section if possible. }
+    validations: { required: true }
+  - type: textarea
+    id: repro
+    attributes: { label: Steps to reproduce, description: A minimal scenario YAML (with secrets removed) and commands. }
+    validations: { required: true }
+  - type: input
+    id: version
+    attributes: { label: ScaleProof version or commit }
+    validations: { required: true }
+  - type: input
+    id: env
+    attributes: { label: Environment, description: OS, .NET, k6 version, Docker/Compose or AppHost }

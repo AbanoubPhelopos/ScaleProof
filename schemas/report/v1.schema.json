@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scaleproof.dev/schemas/report/v1.schema.json",
+  "title": "ScaleProof report v1",
+  "description": "Draft. Normative prose: docs/specs/report-v1.md. Readers MUST ignore unknown properties within v1.",
+  "type": "object",
+  "required": ["schemaVersion", "reportVersion", "generatedAt", "tool", "run", "identity", "workload", "metrics", "thresholds", "quality", "findings", "limitations", "redaction", "artifacts"],
+  "properties": {
+    "schemaVersion": { "const": "scaleproof.report/v1" },
+    "reportVersion": { "type": "integer", "minimum": 1 },
+    "generatedAt": { "$ref": "#/$defs/instant" },
+    "tool": {
+      "type": "object", "required": ["name", "version"],
+      "properties": { "name": { "const": "scaleproof" }, "version": { "type": "string" }, "commit": { "type": "string" } }
+    },
+    "run": {
+      "type": "object",
+      "required": ["runId", "attemptId", "attemptOrdinal", "projectId", "lifecycle", "qualityStatus", "outcome", "terminationReason", "executionLocation"],
+      "properties": {
+        "runId": { "type": "string" },
+        "attemptId": { "type": "string" },
+        "attemptOrdinal": { "type": "integer", "minimum": 1 },
+        "projectId": { "type": "string" },
+        "lifecycle": { "enum": ["completed", "failed", "cancelled"] },
+        "qualityStatus": { "enum": ["valid", "inconclusive", "invalid", null] },
+        "outcome": { "enum": ["pass", "fail", "warn", null] },
+        "terminationReason": { "type": "string" },
+        "executionLocation": { "enum": ["server_worker", "local_agent", "diagnostic_tunnel"] },
+        "submittedAt": { "$ref": "#/$defs/instant" },
+        "startedAt": { "$ref": "#/$defs/instantOrNull" },
+        "finishedAt": { "$ref": "#/$defs/instantOrNull" }
+      }
+    },
+    "identity": {
+      "type": "object", "required": ["scenario", "target", "policy", "engine", "environment"],
+      "properties": {
+        "scenario": { "$ref": "#/$defs/versionedRef" },
+        "target": { "$ref": "#/$defs/versionedRef" },
+        "policy": { "type": "object", "required": ["hash"], "properties": { "version": { "type": "integer" }, "hash": { "$ref": "#/$defs/hash" } } },
+        "datasets": { "type": "array", "items": { "type": "object", "required": ["name", "hash"], "properties": { "name": { "type": "string" }, "hash": { "$ref": "#/$defs/hash" } } } },
+        "engine": { "type": "object", "required": ["id", "version", "adapterVersion"], "properties": { "id": { "type": "string" }, "version": { "type": "string" }, "adapterVersion": { "type": "string" }, "templateHash": { "$ref": "#/$defs/hash" } } },
+        "build": { "type": ["object", "null"] },
+        "environment": { "type": "object", "required": ["fingerprint"], "properties": { "fingerprint": { "$ref": "#/$defs/hash" } } }
+      }
+    },
+    "workload": {
+      "type": "object", "required": ["profile", "windows"],
+      "properties": {
+        "profile": { "enum": ["smoke", "fixed_vus", "arrival_rate", "steps"] },
+        "windows": { "type": "array", "items": { "type": "object", "required": ["name", "durationMs"], "properties": { "name": { "enum": ["warmup", "measurement", "rampdown"] }, "start": { "$ref": "#/$defs/instant" }, "durationMs": { "type": "integer", "minimum": 0 } } } },
+        "offeredRate": { "type": ["number", "null"] },
+        "achievedRate": { "type": ["number", "null"] },
+        "droppedIterations": { "type": ["integer", "null"] }
+      }
+    },
+    "metrics": { "type": "array", "items": { "$ref": "#/$defs/metricValue" } },
+    "perRequest": { "type": "array", "items": { "type": "object", "required": ["request", "metrics"], "properties": { "request": { "type": "string" }, "metrics": { "type": "array", "items": { "$ref": "#/$defs/metricValue" } } } } },
+    "thresholds": { "type": "array", "items": { "type": "object", "required": ["metric", "aggregation", "operator", "value", "unit", "observed", "status"], "properties": { "status": { "enum": ["pass", "fail", "inconclusive"] }, "observed": { "type": ["number", "null"] } } } },
+    "quality": { "type": "object", "required": ["status", "policyVersion", "reasons"], "properties": { "status": { "enum": ["valid", "inconclusive", "invalid", null] }, "policyVersion": { "type": "string" }, "reasons": { "type": "array" } } },
+    "findings": { "type": "array", "items": { "$ref": "https://scaleproof.dev/schemas/check-result/v1.schema.json" } },
+    "comparison": { "type": ["object", "null"] },
+    "limitations": { "type": "array", "items": { "type": "string" } },
+    "redaction": { "type": "object", "required": ["policyVersion", "partial"], "properties": { "policyVersion": { "type": "string" }, "redactedFields": { "type": "integer" }, "partial": { "type": "boolean" } } },
+    "artifacts": { "type": "array", "items": { "type": "object", "required": ["kind", "key", "sha256", "bytes", "mediaType"], "properties": { "sha256": { "type": "string" }, "bytes": { "type": "integer", "minimum": 0 } } } }
+  },
+  "$defs": {
+    "instant": { "type": "string", "format": "date-time" },
+    "instantOrNull": { "type": ["string", "null"], "format": "date-time" },
+    "hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "versionedRef": { "type": "object", "required": ["hash"], "properties": { "name": { "type": "string" }, "profile": { "type": "string" }, "version": { "type": "integer" }, "hash": { "$ref": "#/$defs/hash" } } },
+    "metricValue": {
+      "type": "object",
+      "required": ["metric", "aggregation", "unit", "value", "sampleCount", "window", "source", "definitionVersion"],
+      "properties": {
+        "metric": { "type": "string" },
+        "aggregation": { "type": "string" },
+        "unit": { "type": "string" },
+        "value": { "type": ["number", "null"] },
+        "sampleCount": { "type": "integer", "minimum": 0 },
+        "percentileStatus": { "enum": ["stable", "unstable", "suppressed", null] },
+        "window": { "enum": ["warmup", "measurement", "rampdown"] },
+        "source": { "enum": ["k6", "adapter", "worker", "agent", "otel"] },
+        "definitionVersion": { "type": "integer" },
+        "unavailableReason": { "enum": ["insufficient_samples", "not_collected", "telemetry_unavailable", "redacted", "engine_unsupported", null] }
+      },
+      "if": { "properties": { "value": { "type": "null" } } },
+      "then": { "required": ["unavailableReason"], "properties": { "unavailableReason": { "type": "string" } } }
+    }
+  }
+}

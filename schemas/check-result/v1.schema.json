@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scaleproof.dev/schemas/check-result/v1.schema.json",
+  "title": "ScaleProof check result (finding) v1",
+  "description": "Draft. Normative prose: docs/specs/finding-v1.md.",
+  "type": "object",
+  "required": ["schemaVersion", "checkId", "checkVersion", "status", "severity", "confidence", "title", "summary", "evidence", "limitations", "recommendations"],
+  "properties": {
+    "schemaVersion": { "const": "scaleproof.check-result/v1" },
+    "checkId": { "type": "string", "pattern": "^[a-z0-9]+(\\.[a-z0-9-]+)+$" },
+    "checkVersion": { "type": "integer", "minimum": 1 },
+    "status": { "enum": ["pass", "fail", "warn", "inconclusive", "not_applicable", "skipped", "error"] },
+    "severity": { "enum": ["info", "low", "medium", "high", "critical"] },
+    "confidence": { "enum": ["low", "medium", "high"] },
+    "title": { "type": "string", "maxLength": 200 },
+    "summary": { "type": "string", "maxLength": 2000 },
+    "evidence": {
+      "type": "array", "maxItems": 50,
+      "items": {
+        "type": "object",
+        "required": ["kind"],
+        "properties": {
+          "kind": { "enum": ["metric", "trace", "fingerprint", "artifact", "threshold", "quality", "note"] },
+          "ref": { "type": "string" },
+          "request": { "type": "string" },
+          "aggregation": { "type": "string" },
+          "value": {},
+          "unit": { "type": "string" },
+          "sampleCount": { "type": "integer", "minimum": 0 },
+          "count": { "type": "integer", "minimum": 0 },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "limitations": { "type": "array", "items": { "type": "string", "maxLength": 1000 } },
+    "recommendations": { "type": "array", "items": { "type": "string", "maxLength": 1000 } },
+    "docs": { "type": "string", "format": "uri-reference" }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "status": { "enum": ["fail", "warn", "inconclusive", "error"] } } },
+      "then": { "anyOf": [ { "properties": { "evidence": { "minItems": 1 } } }, { "properties": { "limitations": { "minItems": 1 } } } ] }
+    }
+  ]
+}

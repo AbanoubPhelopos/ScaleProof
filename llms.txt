@@ -1,0 +1,51 @@
+# ScaleProof
+
+> Self-hosted tool that turns backend load tests into reproducible, safety-checked experiments. It validates before traffic, runs k6 under enforced caps, normalizes evidence, gates comparisons on compatibility, and emits evidence-backed findings and JSON/Markdown reports. Stack: .NET 10, ASP.NET Core, PostgreSQL, k6, OpenTelemetry, React 19. Status: specs ahead of code; current milestone M0.
+
+Start with AGENTS.md for working rules. Normative behavior is in docs/specs. If documents conflict, the precedence is: Accepted ADR > docs/specs > docs/architecture.
+
+## Start here
+
+- [AGENTS.md](AGENTS.md): entry point; rules, reading paths, documentation map, ADR index, open questions
+- [Glossary](docs/glossary.md): exact meaning of lifecycle, qualityStatus, outcome, severity, confidence
+
+## Specifications
+
+- [Run lifecycle](docs/specs/run-lifecycle.md): states, transitions, leases
+- [Scenario v1](docs/specs/scenario-v1.md): scenario contract and validation order
+- [Metrics and statistics](docs/specs/metrics-and-statistics.md): metric catalog, percentiles, quality policy
+- [k6 adapter](docs/specs/k6-adapter.md): template, invocation, ingestion, cancellation
+- [Finding v1](docs/specs/finding-v1.md): check contract
+- [Report v1](docs/specs/report-v1.md): report contract
+- [Comparison](docs/specs/comparison.md): compatibility and statistical verdict
+- [API reference](docs/specs/api-reference.md): HTTP endpoints and conventions
+- [Events and agent protocol](docs/specs/events-and-agent-protocol.md): SSE and agent messages
+- [Error codes](docs/specs/error-codes.md): Problem codes, termination reasons, CLI exit codes
+- [Database schema](docs/specs/database-schema.md): tables and lease SQL
+- [Configuration](docs/specs/configuration.md): options and default limits
+
+## Architecture
+
+- [Overview](docs/architecture/overview.md)
+- [Implementation blueprint](docs/architecture/implementation-blueprint.md): projects, dependency rules, invariants
+- [Backend](docs/architecture/backend-architecture.md)
+- [Frontend](docs/architecture/frontend-architecture.md)
+- [Local agent and tunnel](docs/architecture/local-agent-and-tunnel.md)
+- [Threat model](docs/architecture/threat-model.md)
+
+## Product
+
+- [Product requirements](docs/product/product-requirements.md)
+- [User stories](docs/product/user-stories.md)
+- [Roadmap](docs/delivery/roadmap-and-quality.md)
+
+## Optional
+
+- [Competitive analysis](docs/product/competitive-analysis.md)
+- [Decision records](AGENTS.md#decision-records)
+- [Data and contracts](docs/architecture/data-and-contracts.md)
+- [Deployment](docs/architecture/deployment-architecture.md)
+- [Security and operations](docs/architecture/security-and-operations.md)
+- [Engineering standards](docs/engineering/standards.md)
+- [Testing strategy](docs/engineering/testing-strategy.md)
+- [Release and versioning](docs/engineering/release-and-versioning.md)

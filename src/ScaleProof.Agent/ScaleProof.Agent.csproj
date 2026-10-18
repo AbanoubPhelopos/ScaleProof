@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>scaleproof</AssemblyName>
+    <RootNamespace>ScaleProof.Agent</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-ScaleProof.Agent-304ca6d8-ab47-4ae1-ab04-e6c176b0d484</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ScaleProof.Contracts\ScaleProof.Contracts.csproj" />
+    <ProjectReference Include="..\ScaleProof.Execution\ScaleProof.Execution.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,26 @@
+# Minimal smoke scenario used by the quickstart (docs/engineering/local-development.md).
+schemaVersion: scaleproof.scenario/v1
+name: catalog-read-smoke
+target:
+  profile: sample-api
+workload:
+  engine: k6
+  profile: smoke
+  iterations: 20
+  vus: 2
+  windows:
+    measurement: 30s
+requests:
+  - name: list-products
+    method: GET
+    path: /api/products
+    assertions:
+      - status: [200]
+thresholds:
+  - metric: http_req_failed
+    aggregation: rate
+    operator: "<"
+    value: 0.01
+    unit: ratio
+classification:
+  environment: local

@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+artifacts/
+.vs/
+.idea/
+web/scaleproof-web/node_modules/
+web/scaleproof-web/dist/
+.env
+.env.*
+!.env.example

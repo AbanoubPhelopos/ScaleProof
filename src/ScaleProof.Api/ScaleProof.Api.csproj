@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\ScaleProof.Application\ScaleProof.Application.csproj" />
+    <ProjectReference Include="..\ScaleProof.Contracts\ScaleProof.Contracts.csproj" />
+    <ProjectReference Include="..\ScaleProof.Infrastructure\ScaleProof.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>

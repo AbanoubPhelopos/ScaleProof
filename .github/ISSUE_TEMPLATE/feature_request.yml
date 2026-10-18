@@ -1,0 +1,18 @@
+name: Feature request
+description: Propose a capability or improvement
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes: { label: Problem, description: Which backend-performance problem does this solve? Who has it? }
+    validations: { required: true }
+  - type: textarea
+    id: proposal
+    attributes: { label: Proposal }
+    validations: { required: true }
+  - type: textarea
+    id: alternatives
+    attributes: { label: Alternatives and existing tools, description: "See docs/product/competitive-analysis.md. Why isn't an existing tool sufficient?" }
+  - type: dropdown
+    id: milestone
+    attributes: { label: Suggested milestone, options: [M0, M1, M2, M3+, unsure] }

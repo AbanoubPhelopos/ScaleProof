@@ -1,0 +1,9 @@
+ScaleProof
+Copyright 2026 The ScaleProof Authors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+ScaleProof invokes Grafana k6 (https://github.com/grafana/k6), licensed under the
+GNU Affero General Public License v3.0, as a separate, unmodified executable. k6 is
+not linked into or distributed as part of ScaleProof source code. Container images or
+agent bundles that include the k6 binary carry its license in THIRD_PARTY_NOTICES.

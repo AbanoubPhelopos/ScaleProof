@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scaleproof.dev/schemas/scenario/v1.schema.json",
+  "title": "ScaleProof scenario v1",
+  "description": "Draft. Normative prose: docs/specs/scenario-v1.md. Semantic rules (placeholders, effective limits, secret detection, target policy) are enforced by the server in addition to this schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "name", "target", "workload", "requests", "classification"],
+  "properties": {
+    "schemaVersion": { "const": "scaleproof.scenario/v1" },
+    "name": { "$ref": "#/$defs/slug" },
+    "description": { "type": "string", "maxLength": 500 },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile"],
+      "properties": {
+        "profile": { "$ref": "#/$defs/slug" },
+        "basePath": { "$ref": "#/$defs/relativePath" }
+      }
+    },
+    "workload": { "$ref": "#/$defs/workload" },
+    "requests": {
+      "type": "array", "minItems": 1, "maxItems": 50,
+      "items": { "$ref": "#/$defs/request" }
+    },
+    "thresholds": { "type": "array", "maxItems": 50, "items": { "$ref": "#/$defs/threshold" } },
+    "abort": {
+      "type": "array", "maxItems": 20,
+      "items": {
+        "allOf": [ { "$ref": "#/$defs/thresholdCore" } ],
+        "type": "object",
+        "required": ["over"],
+        "properties": { "over": { "$ref": "#/$defs/duration" } },
+        "unevaluatedProperties": false
+      }
+    },
+    "checks": {
+      "type": "array", "maxItems": 20,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["id", "version"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9]+(\\.[a-z0-9-]+)+$" },
+          "version": { "type": "integer", "minimum": 1 },
+          "config": { "type": "object" }
+        }
+      }
+    },
+    "classification": {
+      "type": "object", "additionalProperties": false,
+      "required": ["environment"],
+      "properties": {
+        "environment": { "enum": ["local", "test", "staging"] },
+        "mutation": { "type": "boolean", "default": false }
+      }
+    },
+    "capture": {
+      "type": "object", "additionalProperties": false,
+      "properties": { "mode": { "enum": ["metadata_only", "allow_listed"], "default": "metadata_only" } }
+    },
+    "report": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "formats": { "type": "array", "uniqueItems": true, "items": { "enum": ["json", "markdown"] }, "default": ["json", "markdown"] }
+      }
+    }
+  },
+  "$defs": {
+    "slug": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{1,62}$" },
+    "duration": { "type": "string", "pattern": "^[0-9]+(ms|s|m|h)$" },
+    "size": { "type": "string", "pattern": "^[0-9]+(B|KiB|MiB)$" },
+    "relativePath": { "type": "string", "pattern": "^/[^\\s#]*$", "maxLength": 2048 },
+    "secretRef": {
+      "type": "object", "additionalProperties": false,
+      "required": ["secretRef"],
+      "properties": {
+        "secretRef": { "$ref": "#/$defs/slug" },
+        "format": { "type": "string", "pattern": "\\{value\\}", "maxLength": 100 }
+      }
+    },
+    "datasetPick": {
+      "type": "object", "additionalProperties": false,
+      "required": ["dataset"],
+      "properties": {
+        "dataset": { "$ref": "#/$defs/slug" },
+        "pick": { "enum": ["round_robin", "random_seeded"], "default": "round_robin" }
+      }
+    },
+    "workload": {
+      "type": "object", "additionalProperties": false,
+      "required": ["engine", "profile", "windows"],
+      "properties": {
+        "engine": { "const": "k6" },
+        "profile": { "enum": ["smoke", "fixed_vus", "arrival_rate", "steps"] },
+        "iterations": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "vus": { "type": "integer", "minimum": 1 },
+        "rate": { "type": "integer", "minimum": 1 },
+        "timeUnit": { "$ref": "#/$defs/duration" },
+        "preAllocatedVUs": { "type": "integer", "minimum": 1 },
+        "maxVUs": { "type": "integer", "minimum": 1 },
+        "stages": {
+          "type": "array", "minItems": 1, "maxItems": 20,
+          "items": {
+            "type": "object", "additionalProperties": false, "required": ["rate", "duration"],
+            "properties": { "rate": { "type": "integer", "minimum": 1 }, "duration": { "$ref": "#/$defs/duration" } }
+          }
+        },
+        "windows": {
+          "type": "object", "additionalProperties": false, "required": ["measurement"],
+          "properties": {
+            "warmUp": { "$ref": "#/$defs/duration", "default": "0s" },
+            "measurement": { "$ref": "#/$defs/duration" },
+            "rampDown": { "$ref": "#/$defs/duration", "default": "0s" }
+          }
+        },
+        "timeouts": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "request": { "$ref": "#/$defs/duration", "default": "10s" },
+            "gracefulStop": { "$ref": "#/$defs/duration", "default": "15s" }
+          }
+        },
+        "limits": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "maxRequests": { "type": "integer", "minimum": 1 },
+            "maxRequestBytes": { "$ref": "#/$defs/size" },
+            "maxResponseBytes": { "$ref": "#/$defs/size" }
+          }
+        }
+      },
+      "allOf": [
+        { "if": { "properties": { "profile": { "const": "smoke" } } }, "then": { "required": ["iterations"] } },
+        { "if": { "properties": { "profile": { "const": "fixed_vus" } } }, "then": { "required": ["vus"] } },
+        { "if": { "properties": { "profile": { "const": "arrival_rate" } } }, "then": { "required": ["rate", "timeUnit", "preAllocatedVUs", "maxVUs"] } },
+        { "if": { "properties": { "profile": { "const": "steps" } } }, "then": { "required": ["stages", "preAllocatedVUs", "maxVUs"] } }
+      ]
+    },
+    "request": {
+      "type": "object", "additionalProperties": false,
+      "required": ["name", "method", "path"],
+      "properties": {
+        "name": { "$ref": "#/$defs/slug" },
+        "weight": { "type": "integer", "minimum": 1, "maximum": 1000, "default": 1 },
+        "method": { "enum": ["GET", "HEAD", "OPTIONS", "POST", "PUT", "PATCH", "DELETE"] },
+        "path": { "$ref": "#/$defs/relativePath" },
+        "headers": {
+          "type": "object", "maxProperties": 30,
+          "propertyNames": { "pattern": "^[A-Za-z0-9-]{1,64}$" },
+          "additionalProperties": { "oneOf": [ { "type": "string", "maxLength": 1024 }, { "$ref": "#/$defs/secretRef" } ] }
+        },
+        "params": {
+          "type": "object", "maxProperties": 20,
+          "additionalProperties": { "oneOf": [ { "type": ["string", "number", "boolean"] }, { "$ref": "#/$defs/datasetPick" } ] }
+        },
+        "body": {
+          "type": "object", "additionalProperties": false, "required": ["contentType"],
+          "properties": {
+            "contentType": { "type": "string", "maxLength": 100 },
+            "json": {},
+            "dataset": { "$ref": "#/$defs/slug" }
+          },
+          "oneOf": [ { "required": ["json"] }, { "required": ["dataset"] } ]
+        },
+        "assertions": {
+          "type": "array", "maxItems": 20,
+          "items": {
+            "oneOf": [
+              { "type": "object", "additionalProperties": false, "required": ["status"],
+                "properties": { "status": { "type": "array", "minItems": 1, "items": { "type": "integer", "minimum": 100, "maximum": 599 } } } },
+              { "type": "object", "additionalProperties": false, "required": ["header"],
+                "properties": { "header": { "type": "object", "additionalProperties": false, "required": ["name"],
+                  "properties": { "name": { "type": "string" }, "equals": { "type": "string" }, "contains": { "type": "string" } } } } },
+              { "type": "object", "additionalProperties": false, "required": ["jsonPath"],
+                "properties": { "jsonPath": { "type": "object", "additionalProperties": false, "required": ["path"],
+                  "properties": { "path": { "type": "string", "maxLength": 256 }, "exists": { "type": "boolean" }, "equals": {} } } } }
+            ]
+          }
+        }
+      }
+    },
+    "thresholdCore": {
+      "type": "object",
+      "required": ["metric", "aggregation", "operator", "value", "unit"],
+      "properties": {
+        "metric": { "type": "string", "pattern": "^[a-z_]+$" },
+        "aggregation": { "enum": ["count", "rate", "value", "min", "max", "mean", "p50", "p90", "p95", "p99", "p99.9", "ratio_of_offered"] },
+        "operator": { "enum": ["<", "<=", ">", ">="] },
+        "value": { "type": "number" },
+        "unit": { "enum": ["ms", "s", "count", "ratio", "iter/s", "req/s", "bytes"] },
+        "request": { "$ref": "#/$defs/slug" }
+      }
+    },
+    "threshold": {
+      "allOf": [ { "$ref": "#/$defs/thresholdCore" } ],
+      "unevaluatedProperties": false
+    }
+  }
+}

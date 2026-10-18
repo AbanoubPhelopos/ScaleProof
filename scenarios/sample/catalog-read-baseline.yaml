@@ -1,0 +1,73 @@
+# Sample scenario for the sample API. Mirrors the example in docs/specs/scenario-v1.md.
+schemaVersion: scaleproof.scenario/v1
+name: catalog-read-baseline
+description: Read-mostly catalog traffic at a fixed arrival rate.
+target:
+  profile: sample-api            # target profile name; the exact version is pinned at submission
+  basePath: /api                 # optional; must be inside the profile's allowed base paths
+workload:
+  engine: k6
+  profile: arrival_rate          # smoke | fixed_vus | arrival_rate | steps (M1)
+  rate: 50                       # iterations per timeUnit
+  timeUnit: 1s
+  preAllocatedVUs: 20
+  maxVUs: 60
+  windows:
+    warmUp: 30s
+    measurement: 2m
+    rampDown: 10s
+  timeouts:
+    request: 10s
+    gracefulStop: 15s
+  limits:                        # requested caps; effective = min(requested, policy)
+    maxRequests: 20000
+    maxRequestBytes: 64KiB
+    maxResponseBytes: 1MiB
+requests:
+  - name: list-products
+    weight: 80
+    method: GET
+    path: /products?page=1&size=20
+    assertions:
+      - status: [200]
+      - header: { name: content-type, contains: application/json }
+  - name: get-product
+    weight: 20
+    method: GET
+    path: /products/{id}
+    params:
+      id: { dataset: product-ids, pick: round_robin }
+    headers:
+      Authorization: { secretRef: sample-api-token, format: "Bearer {value}" }
+    assertions:
+      - status: [200, 404]
+thresholds:
+  - metric: http_req_duration
+    aggregation: p95
+    operator: "<"
+    value: 300
+    unit: ms
+  - metric: http_req_failed
+    aggregation: rate
+    operator: "<"
+    value: 0.01
+    unit: ratio
+    request: list-products       # optional scope
+abort:
+  - metric: http_req_failed
+    aggregation: rate
+    operator: ">"
+    value: 0.5
+    unit: ratio
+    over: 10s
+checks:
+  - id: scaleproof.repeated-query
+    version: 1
+    config: { minRepetitions: 5 }
+classification:
+  environment: local             # local | test | staging   (production is rejected in v1)
+  mutation: false
+capture:
+  mode: metadata_only            # metadata_only | allow_listed (M2)
+report:
+  formats: [json, markdown]

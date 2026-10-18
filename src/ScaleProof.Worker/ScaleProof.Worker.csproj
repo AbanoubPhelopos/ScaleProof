@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-ScaleProof.Worker-c5e78848-f0d8-42e2-b4ff-09c9399edb25</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ScaleProof.Application\ScaleProof.Application.csproj" />
+    <ProjectReference Include="..\ScaleProof.Contracts\ScaleProof.Contracts.csproj" />
+    <ProjectReference Include="..\ScaleProof.Infrastructure\ScaleProof.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>
