@@ -6,7 +6,7 @@ Related: [roadmap](../delivery/roadmap-and-quality.md), [configuration](../specs
 
 ## Current repository
 
-The eight .NET projects are scaffolding. Compose orchestration, `scaleproof` packaging/commands, migrations, tests, and the React app still need implementation. The planned commands below specify the intended interface; they are not a working installation guide. Build the current solution with `dotnet build ScaleProof.sln`; report its result only after actually running it in your environment.
+The eight production .NET projects are scaffolding. The [test foundation](../../tests/README.md) provides working architecture and schema infrastructure checks. Compose orchestration, `scaleproof` packaging/commands, migrations, runtime tests, and the React app still need implementation. The planned commands below specify the intended interface; they are not a working installation guide. Build the current solution with `dotnet build ScaleProof.sln`; report its result only after actually running it in your environment.
 
 ## Prerequisites for the target workflow
 

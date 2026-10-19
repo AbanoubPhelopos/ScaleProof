@@ -76,7 +76,7 @@ Dependency rules are enforced by architecture tests ([blueprint](docs/architectu
 
 ```bash
 dotnet build ScaleProof.sln                     # verified: builds the scaffolding
-dotnet test                                     # planned: no test projects yet
+dotnet test                                     # unit/architecture and schema foundation tests
 ```
 
 The full planned workflow is in [local development](docs/engineering/local-development.md). Never claim that a command passed unless you ran it and saw it pass.

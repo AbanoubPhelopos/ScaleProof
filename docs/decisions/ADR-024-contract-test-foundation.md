@@ -2,7 +2,7 @@
 
 Status: Proposed
 Date: 2026-10-18
-Deciders: Repository maintainers; decision pending
+Deciders: Repository maintainers; implementation authorized on 2026-10-18, formal status merge pending
 Related: FR-001, FR-004, FR-020, FR-023, FR-030; US-001, US-023, US-024; [ADR-003](ADR-003-evidence-contract.md), [ADR-005](ADR-005-versioned-reports.md), [ADR-008](ADR-008-versioned-immutable-contracts.md)
 
 ## Context
@@ -42,6 +42,11 @@ Approval of the phase or this document's preparation does not accept this ADR.
 
 Proposed (ADR-024): select the first option with NetArchTest and VSTest. Implement
 only after the maintainer decision; record acceptance separately from this proposal.
+
+Implementation authorization: on 2026-10-18 the user approved continuing after
+being asked to approve ADR-024 and T02. This explicitly authorizes the test
+foundation described here. Formal Accepted status remains pending a maintainer
+merge of the status change; no other Proposed ADR is accepted by this approval.
 
 ### Projects and dependency pins
 

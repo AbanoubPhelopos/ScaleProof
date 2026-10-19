@@ -1,0 +1,51 @@
+﻿[
+  {
+    Id: https://scaleproof.dev/schemas/check-result/v1.schema.json,
+    Required: [
+      checkId,
+      checkVersion,
+      confidence,
+      evidence,
+      limitations,
+      recommendations,
+      schemaVersion,
+      severity,
+      status,
+      summary,
+      title
+    ],
+    AllowsAdditionalProperties: true
+  },
+  {
+    Id: https://scaleproof.dev/schemas/report/v1.schema.json,
+    Required: [
+      artifacts,
+      findings,
+      generatedAt,
+      identity,
+      limitations,
+      metrics,
+      quality,
+      redaction,
+      reportVersion,
+      run,
+      schemaVersion,
+      thresholds,
+      tool,
+      workload
+    ],
+    AllowsAdditionalProperties: true
+  },
+  {
+    Id: https://scaleproof.dev/schemas/scenario/v1.schema.json,
+    Required: [
+      classification,
+      name,
+      requests,
+      schemaVersion,
+      target,
+      workload
+    ],
+    AllowsAdditionalProperties: false
+  }
+]

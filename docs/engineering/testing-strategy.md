@@ -11,6 +11,11 @@ contract/unit project setup, dependency pins, VSTest runner, offline schema
 resolution, and the contract-only requirement coverage matrix. The proposal adds
 no packages until the maintainer decision; runtime acceptance remains separate.
 
+The initial foundation is now implemented under the explicit authorization
+recorded in ADR-024. See [test commands and scope](../../tests/README.md); this
+does not accept the other Proposed architecture decisions or complete runtime
+acceptance coverage.
+
 | Layer | Project / location | Tools | Scope |
 |---|---|---|---|
 | Unit | `tests/ScaleProof.UnitTests` | xUnit v3, FsCheck (property tests) | Domain rules, policy, canonicalization, hashing, state graph, statistics, percentiles, threshold evaluation, redaction, checks |

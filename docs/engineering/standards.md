@@ -19,6 +19,7 @@ These standards preserve the useful repository guidance from the former root age
 - Target .NET 10 LTS for the initial implementation and stay current on supported patches; major upgrades require an explicit compatibility change.
 - Enable nullable reference analysis and resolve warnings at the contract rather than suppressing them broadly.
 - Use explicit dependencies, cohesive methods/types, typed validated options, and correct DI lifetimes. Singleton services must be thread-safe and cannot capture scoped services.
+- Use named constants for semantic string values repeated across code. Reuse shared names and derive names from types or existing constants where practical; avoid duplicate literals and unnecessary allocations while keeping the implementation simple.
 - Use async I/O and propagate cancellation. Avoid `.Result`, `.Wait()`, request-scoped fire-and-forget work, and unbounded parallelism/queues.
 - Use `IHttpClientFactory`, explicit timeouts, and bounded retries only for transient and safely retryable operations.
 - Prefer built-in framework features and repository conventions before adding dependencies.
