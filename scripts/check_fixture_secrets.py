@@ -38,6 +38,7 @@ def json_rules(value):
     rules = set()
     if isinstance(value, dict):
         for key, child in value.items():
+            rules.update(text_rules(key))
             normalized = re.sub(r"[^a-z0-9]", "", key.casefold())
             sensitive = normalized in SENSITIVE_KEYS or normalized.endswith(SENSITIVE_SUFFIXES)
             reference = isinstance(child, dict) and isinstance(child.get("secretRef"), str)

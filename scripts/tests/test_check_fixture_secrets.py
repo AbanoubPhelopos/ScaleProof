@@ -80,6 +80,19 @@ class FixtureSecretTests(unittest.TestCase):
                 self.snapshot.write_text(text, encoding="utf-8-sig")
                 self.assertTrue(scanner.scan_file(self.snapshot))
 
+    def test_escaped_token_keys_are_rejected_without_echoing_them(self):
+        canary = "ghp_" + "A" * 36
+        escaped = "".join("\\u%04x" % ord(char) for char in canary)
+        payload = '{"nested":[{"' + escaped + '":"synthetic"}]}'
+        for path in (self.fixture, self.snapshot):
+            with self.subTest(scope=path.suffix):
+                path.write_text(payload, encoding="utf-8")
+                self.assertIn("github-token", scanner.scan_file(path))
+                result, output = self.run_cli()
+                self.assertEqual(1, result)
+                self.assertNotIn(canary, output)
+                self.assertNotIn(escaped, output)
+
     def test_non_json_inventory_snapshot_is_allowed(self):
         self.snapshot.write_text('[{ Id: synthetic, Required: [name] }]', encoding="utf-8-sig")
         self.assertEqual(set(), scanner.scan_file(self.snapshot))

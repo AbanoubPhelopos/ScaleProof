@@ -271,9 +271,10 @@ blanket path exclusions. Reference objects still have their nested fields scanne
 Matches fail with filenames and rule names, never matched input values. Invalid
 fixture JSON, unreadable UTF-8, missing/empty scopes and symlinks also fail. The
 script locates its root from its own path; --root is available for synthetic test
-controls. Python's -B keeps bytecode out of the checkout. Fifteen standard-library
+controls. Python's -B keeps bytecode out of the checkout. Sixteen standard-library
 unit tests cover positive/negative patterns, escapes, safe reporting and failure
-conditions using temporary files and constructed synthetic canaries.
+conditions using temporary files and constructed synthetic canaries, including
+escaped token property names in nested fixtures and snapshots.
 
 This is bounded fixture hygiene, not an exhaustive secret/PII detector, runtime
 redaction implementation or substitute for reviewing synthetic data. No check
