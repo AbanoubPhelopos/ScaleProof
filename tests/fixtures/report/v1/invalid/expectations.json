@@ -1,0 +1,135 @@
+[
+  {
+    "file": "unsupported-major.json",
+    "pointer": "/schemaVersion",
+    "keyword": "const",
+    "readerRejects": true,
+    "schemaValid": false
+  },
+  {
+    "file": "missing-outcome.json",
+    "pointer": "/run",
+    "keyword": "required",
+    "readerRejects": true,
+    "schemaValid": false
+  },
+  {
+    "file": "missing-metric-value.json",
+    "pointer": "/metrics/0",
+    "keyword": "required",
+    "readerRejects": true,
+    "schemaValid": false
+  },
+  {
+    "file": "null-without-reason.json",
+    "pointer": "/metrics/0",
+    "keyword": "required",
+    "readerRejects": false,
+    "schemaValid": false
+  },
+  {
+    "file": "null-with-null-reason.json",
+    "pointer": "/metrics/0/unavailableReason",
+    "keyword": "type",
+    "readerRejects": false,
+    "schemaValid": false
+  },
+  {
+    "file": "unknown-reason.json",
+    "pointer": "/metrics/0/unavailableReason",
+    "keyword": "enum",
+    "readerRejects": true,
+    "schemaValid": false
+  },
+  {
+    "file": "numeric-lifecycle.json",
+    "pointer": "/run/lifecycle",
+    "keyword": "enum",
+    "readerRejects": true,
+    "schemaValid": false
+  },
+  {
+    "file": "unknown-lifecycle.json",
+    "pointer": "/run/lifecycle",
+    "keyword": "enum",
+    "readerRejects": true,
+    "schemaValid": false
+  },
+  {
+    "file": "unknown-quality.json",
+    "pointer": "/quality/status",
+    "keyword": "enum",
+    "readerRejects": true,
+    "schemaValid": false
+  },
+  {
+    "file": "unknown-outcome.json",
+    "pointer": "/run/outcome",
+    "keyword": "enum",
+    "readerRejects": true,
+    "schemaValid": false
+  },
+  {
+    "file": "unknown-metric-source.json",
+    "pointer": "/metrics/0/source",
+    "keyword": "enum",
+    "readerRejects": true,
+    "schemaValid": false
+  },
+  {
+    "file": "negative-sample-count.json",
+    "pointer": "/metrics/0/sampleCount",
+    "keyword": "minimum",
+    "readerRejects": false,
+    "schemaValid": false
+  },
+  {
+    "file": "invalid-date.json",
+    "pointer": "/generatedAt",
+    "keyword": "format",
+    "readerRejects": true,
+    "schemaValid": false
+  },
+  {
+    "file": "non-utc-date.json",
+    "pointer": "/generatedAt",
+    "keyword": "",
+    "readerRejects": true,
+    "schemaValid": true
+  },
+  {
+    "file": "non-utc-optional-date.json",
+    "pointer": "/run/startedAt",
+    "keyword": "",
+    "readerRejects": true,
+    "schemaValid": true
+  },
+  {
+    "file": "bad-hash.json",
+    "pointer": "/identity/scenario/hash",
+    "keyword": "pattern",
+    "readerRejects": false,
+    "schemaValid": false
+  },
+  {
+    "file": "negative-artifact-size.json",
+    "pointer": "/artifacts/0/bytes",
+    "keyword": "minimum",
+    "readerRejects": false,
+    "schemaValid": false
+  },
+  {
+    "file": "nested-finding-without-support.json",
+    "pointer": "/findings/0",
+    "keyword": "anyOf",
+    "readerRejects": false,
+    "schemaValid": false
+  },
+  {
+    "file": "null-metrics-array.json",
+    "pointer": "/metrics",
+    "keyword": "type",
+    "readerRejects": true,
+    "schemaValid": false
+  }
+]

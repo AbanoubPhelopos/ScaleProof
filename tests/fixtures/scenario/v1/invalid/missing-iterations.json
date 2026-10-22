@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "scaleproof.scenario/v1",
+  "name": "sample-smoke",
+  "target": {
+    "profile": "sample-api"
+  },
+  "workload": {
+    "engine": "k6",
+    "profile": "smoke",
+    "windows": {
+      "measurement": "5s"
+    }
+  },
+  "requests": [
+    {
+      "name": "sample-read",
+      "method": "GET",
+      "path": "/items"
+    }
+  ],
+  "classification": {
+    "environment": "local"
+  }
+}

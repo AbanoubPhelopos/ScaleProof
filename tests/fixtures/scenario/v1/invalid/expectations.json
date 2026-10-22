@@ -1,0 +1,218 @@
+[
+  {
+    "file": "unknown-root.json",
+    "pointer": "",
+    "keyword": "additionalProperties",
+    "readerRejects": true,
+    "expectedCode": "SCENARIO_UNKNOWN_FIELD",
+    "fieldPointer": "/unexpected"
+  },
+  {
+    "file": "unknown-nested.json",
+    "pointer": "/workload/windows",
+    "keyword": "additionalProperties",
+    "readerRejects": true,
+    "expectedCode": "SCENARIO_UNKNOWN_FIELD",
+    "fieldPointer": "/workload/windows/unexpected"
+  },
+  {
+    "file": "missing-name.json",
+    "pointer": "",
+    "keyword": "required",
+    "readerRejects": true,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": ""
+  },
+  {
+    "file": "missing-iterations.json",
+    "pointer": "/workload",
+    "keyword": "required",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/workload"
+  },
+  {
+    "file": "missing-vus.json",
+    "pointer": "/workload",
+    "keyword": "required",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/workload"
+  },
+  {
+    "file": "missing-arrival-fields.json",
+    "pointer": "/workload",
+    "keyword": "required",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/workload"
+  },
+  {
+    "file": "missing-steps-fields.json",
+    "pointer": "/workload",
+    "keyword": "required",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/workload"
+  },
+  {
+    "file": "unsupported-version.json",
+    "pointer": "/schemaVersion",
+    "keyword": "const",
+    "readerRejects": false,
+    "expectedCode": "UNSUPPORTED_SCHEMA_VERSION",
+    "fieldPointer": "/schemaVersion"
+  },
+  {
+    "file": "malformed-duration.json",
+    "pointer": "/workload/windows/measurement",
+    "keyword": "pattern",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/workload/windows/measurement"
+  },
+  {
+    "file": "malformed-size.json",
+    "pointer": "/workload/limits/maxResponseBytes",
+    "keyword": "pattern",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/workload/limits/maxResponseBytes"
+  },
+  {
+    "file": "string-iterations.json",
+    "pointer": "/workload/iterations",
+    "keyword": "type",
+    "readerRejects": true,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/workload/iterations"
+  },
+  {
+    "file": "zero-iterations.json",
+    "pointer": "/workload/iterations",
+    "keyword": "minimum",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/workload/iterations"
+  },
+  {
+    "file": "numeric-enum.json",
+    "pointer": "/requests/0/method",
+    "keyword": "enum",
+    "readerRejects": true,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/requests/0/method"
+  },
+  {
+    "file": "unknown-enum.json",
+    "pointer": "/requests/0/method",
+    "keyword": "enum",
+    "readerRejects": true,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/requests/0/method"
+  },
+  {
+    "file": "null-name.json",
+    "pointer": "/name",
+    "keyword": "type",
+    "readerRejects": true,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/name"
+  },
+  {
+    "file": "bad-secret-ref.json",
+    "pointer": "/requests/0/headers/Authorization/secretRef",
+    "keyword": "pattern",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/requests/0/headers/Authorization/secretRef"
+  },
+  {
+    "file": "unknown-secret-field.json",
+    "pointer": "/requests/0/headers/Authorization",
+    "keyword": "additionalProperties",
+    "readerRejects": true,
+    "expectedCode": "SCENARIO_UNKNOWN_FIELD",
+    "fieldPointer": "/requests/0/headers/Authorization/unexpected"
+  },
+  {
+    "file": "null-parameter.json",
+    "pointer": "/requests/0/params/id",
+    "keyword": "type",
+    "readerRejects": true,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/requests/0/params/id"
+  },
+  {
+    "file": "body-both-sources.json",
+    "pointer": "/requests/0/body",
+    "keyword": "oneOf",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/requests/0/body"
+  },
+  {
+    "file": "assertion-both-shapes.json",
+    "pointer": "/requests/0/assertions/0",
+    "keyword": "oneOf",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/requests/0/assertions/0"
+  },
+  {
+    "file": "arrival-rate-missing-rate.json",
+    "pointer": "/workload",
+    "keyword": "required",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/workload"
+  },
+  {
+    "file": "arrival-rate-missing-timeUnit.json",
+    "pointer": "/workload",
+    "keyword": "required",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/workload"
+  },
+  {
+    "file": "arrival-rate-missing-preAllocatedVUs.json",
+    "pointer": "/workload",
+    "keyword": "required",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/workload"
+  },
+  {
+    "file": "arrival-rate-missing-maxVUs.json",
+    "pointer": "/workload",
+    "keyword": "required",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/workload"
+  },
+  {
+    "file": "reserved-shapes-missing-stages.json",
+    "pointer": "/workload",
+    "keyword": "required",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/workload"
+  },
+  {
+    "file": "reserved-shapes-missing-preAllocatedVUs.json",
+    "pointer": "/workload",
+    "keyword": "required",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/workload"
+  },
+  {
+    "file": "reserved-shapes-missing-maxVUs.json",
+    "pointer": "/workload",
+    "keyword": "required",
+    "readerRejects": false,
+    "expectedCode": "SCENARIO_SCHEMA_INVALID",
+    "fieldPointer": "/workload"
+  }
+]

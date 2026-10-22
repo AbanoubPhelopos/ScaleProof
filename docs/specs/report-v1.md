@@ -67,3 +67,15 @@ Charts are not embedded. Every table includes units.
 `scaleproof.report/v1` stays deterministic and does not embed model text or model-dependent verdicts. Store `scaleproof.ai-explanation/v1` as a separate run/attempt-linked artifact with source report hash, local input hash, model/prompt/redaction versions, evidence references, limitations, hypotheses, and output review provenance as specified by [AI assistance](ai-assistance.md). The explanation listing endpoint may return additional versions; downloading the deterministic report never waits for them. Reports generated before this feature remain valid without it.
 
 The dashboard labels AI explanation availability independently from lifecycle/quality/outcome. An inference error is not a failed run. HTTP-only reports cannot claim database/runtime root causes. Comparison and future re-analysis select exact report hashes; an explanation over an older hash remains explicitly attached to that version.
+
+## .NET wire model
+
+[`ReportV1`](../../src/ScaleProof.Contracts/Reports/ReportV1.cs) and
+[`ReportJsonContext`](../../src/ScaleProof.Contracts/Reports/ReportJsonContext.cs)
+provide the implemented report wire model and generated metadata. The reader
+rejects unsupported schema versions and enforces UTC timestamps; additive fields
+are ignored throughout typed objects. Missing measurements remain null and do
+not produce a default outcome. Schema validation remains a separate required
+boundary. See [report contract tests](../../tests/README.md#report-v1-contracts-m0-p01-t05)
+for nullable/optional values, current schema/prose gaps, and reader representation
+limits. No report computation or rendering is implemented by these DTOs.

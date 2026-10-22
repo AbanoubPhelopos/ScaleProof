@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "scaleproof.check-result/v1",
+  "checkId": "scaleproof.thresholds",
+  "checkVersion": 1,
+  "status": "warn",
+  "severity": "high",
+  "confidence": "low",
+  "title": "Synthetic threshold result",
+  "summary": "Contract fixture only; no check was executed.",
+  "evidence": [
+    {
+      "kind": "metric",
+      "ref": "http_req_duration",
+      "request": "sample-read",
+      "aggregation": "p95",
+      "value": 350.5,
+      "unit": "ms",
+      "sampleCount": 100,
+      "count": 0,
+      "note": "Synthetic measurement."
+    },
+    {
+      "kind": "trace",
+      "ref": "artifact:synthetic-traces#trace=sample",
+      "value": null
+    },
+    {
+      "kind": "fingerprint",
+      "value": "SELECT synthetic_column FROM synthetic_table WHERE synthetic_id = ?",
+      "count": 3
+    },
+    {
+      "kind": "artifact",
+      "ref": "artifact:synthetic-evidence",
+      "value": {
+        "available": true,
+        "samples": [
+          1,
+          null
+        ]
+      }
+    },
+    {
+      "kind": "threshold",
+      "value": false
+    },
+    {
+      "kind": "quality",
+      "value": [
+        "missing_telemetry"
+      ]
+    },
+    {
+      "kind": "note",
+      "note": "Synthetic context only."
+    }
+  ],
+  "limitations": [
+    "Synthetic evidence only; no application diagnosis is supported."
+  ],
+  "recommendations": [
+    "Collect the required telemetry before drawing a conclusion."
+  ],
+  "docs": "docs/checks/synthetic.md"
+}

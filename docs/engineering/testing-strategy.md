@@ -6,6 +6,16 @@ Related: [standards](standards.md#verification-and-change-reporting) · [roadmap
 
 ## Test projects and tools
 
+Proposed ([ADR-024](../decisions/ADR-024-contract-test-foundation.md)): initial
+contract/unit project setup, dependency pins, VSTest runner, offline schema
+resolution, and the contract-only requirement coverage matrix. The proposal adds
+no packages until the maintainer decision; runtime acceptance remains separate.
+
+The initial foundation is now implemented under the explicit authorization
+recorded in ADR-024. See [test commands and scope](../../tests/README.md); this
+does not accept the other Proposed architecture decisions or complete runtime
+acceptance coverage.
+
 | Layer | Project / location | Tools | Scope |
 |---|---|---|---|
 | Unit | `tests/ScaleProof.UnitTests` | xUnit v3, FsCheck (property tests) | Domain rules, policy, canonicalization, hashing, state graph, statistics, percentiles, threshold evaluation, redaction, checks |
@@ -30,6 +40,15 @@ Related: [standards](standards.md#verification-and-change-reporting) · [roadmap
 - Non-determinism (clock, randomness, IDs) is injected: `TimeProvider`, seeded `Random`, and an ID generator interface.
 - Tests never depend on internet access. k6 binaries are pinned in CI.
 - Every bug fix includes a regression test that fails without the fix.
+
+## Implemented foundation CI
+
+The [contract foundation workflow](../../.github/workflows/contract-foundation.yml)
+currently runs fixture hygiene, locked restore, a warnings-as-errors Release
+build, unit/architecture tests, and schema/serialization golden tests on master
+PRs and pushes. See [commands, diagnostics and snapshot review](../../tests/README.md#contract-foundation-ci-m0-p01-t06).
+The wider pipeline below remains a target; this workflow does not implement its
+integration, engine, frontend or end-to-end gates.
 
 ## CI pipeline (target)
 

@@ -262,7 +262,10 @@ Acceptance criteria:
 
 - Status is one of `pass`, `fail`, `warn`, `inconclusive`, `not_applicable`, `skipped`, or `error`.
 - Severity describes impact; confidence describes strength of evidence.
-- Every non-pass outcome has evidence or a reason evidence is unavailable.
+- `fail`, `warn`, `inconclusive`, and `error` require evidence or a limitation
+  explaining why evidence is unavailable. `pass`, `not_applicable`, and `skipped`
+  may have empty evidence and limitations, as defined by the
+  [finding contract](../specs/finding-v1.md#field-semantics).
 
 Links: FR-023.
 

@@ -1,0 +1,247 @@
+﻿{
+  "schemaVersion": "scaleproof.report/v1",
+  "reportVersion": 1,
+  "generatedAt": "2026-10-17T10:02:41Z",
+  "tool": {
+    "name": "scaleproof",
+    "version": "0.1.0",
+    "commit": "synthetic-commit"
+  },
+  "run": {
+    "runId": "01990000-0000-7000-8000-000000000001",
+    "attemptId": "01990000-0000-7000-8000-000000000002",
+    "attemptOrdinal": 1,
+    "projectId": "01990000-0000-7000-8000-000000000003",
+    "lifecycle": "completed",
+    "qualityStatus": "valid",
+    "outcome": "fail",
+    "terminationReason": "completed",
+    "executionLocation": "local_agent",
+    "submittedAt": "2026-10-17T09:59:59Z",
+    "startedAt": "2026-10-17T10:00:00Z",
+    "finishedAt": "2026-10-17T10:02:40Z"
+  },
+  "identity": {
+    "scenario": {
+      "name": "catalog-read-baseline",
+      "version": 3,
+      "hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "target": {
+      "profile": "sample-api",
+      "version": 2,
+      "hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "policy": {
+      "version": 5,
+      "hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "datasets": [
+      {
+        "name": "sample-ids",
+        "hash": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      }
+    ],
+    "engine": {
+      "id": "k6",
+      "version": "1.0.0",
+      "adapterVersion": "1",
+      "templateHash": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    "build": {
+      "revision": "synthetic-build",
+      "metadata": {
+        "synthetic": true
+      }
+    },
+    "environment": {
+      "fingerprint": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "agentId": "01990000-0000-7000-8000-000000000004"
+    }
+  },
+  "workload": {
+    "profile": "fixed_vus",
+    "windows": [
+      {
+        "name": "warmup",
+        "start": "2026-10-17T10:00:00Z",
+        "durationMs": 30000
+      },
+      {
+        "name": "measurement",
+        "start": "2026-10-17T10:00:30Z",
+        "durationMs": 120000
+      },
+      {
+        "name": "rampdown",
+        "start": "2026-10-17T10:02:30Z",
+        "durationMs": 10000
+      }
+    ],
+    "offeredRate": 50,
+    "achievedRate": 49.7,
+    "droppedIterations": 0
+  },
+  "metrics": [
+    {
+      "metric": "http_req_duration",
+      "aggregation": "p95",
+      "unit": "ms",
+      "value": 350,
+      "sampleCount": 5964,
+      "percentileStatus": "stable",
+      "window": "measurement",
+      "source": "k6",
+      "definitionVersion": 1,
+      "unavailableReason": null
+    }
+  ],
+  "perRequest": [
+    {
+      "request": "sample-read",
+      "metrics": [
+        {
+          "metric": "http_req_duration",
+          "aggregation": "p95",
+          "unit": "ms",
+          "value": 350,
+          "sampleCount": 5964,
+          "percentileStatus": "stable",
+          "window": "measurement",
+          "source": "k6",
+          "definitionVersion": 1,
+          "unavailableReason": null
+        }
+      ]
+    }
+  ],
+  "thresholds": [
+    {
+      "metric": "http_req_duration",
+      "aggregation": "p95",
+      "operator": "\u003C",
+      "value": 300,
+      "unit": "ms",
+      "observed": 350,
+      "status": "fail",
+      "request": "sample-read"
+    }
+  ],
+  "quality": {
+    "status": "valid",
+    "policyVersion": "quality/1",
+    "reasons": []
+  },
+  "findings": [
+    {
+      "schemaVersion": "scaleproof.check-result/v1",
+      "checkId": "scaleproof.thresholds",
+      "checkVersion": 1,
+      "status": "warn",
+      "severity": "high",
+      "confidence": "low",
+      "title": "Synthetic threshold result",
+      "summary": "Contract fixture only; no check was executed.",
+      "evidence": [
+        {
+          "kind": "metric",
+          "ref": "http_req_duration",
+          "request": "sample-read",
+          "aggregation": "p95",
+          "value": 350.5,
+          "unit": "ms",
+          "sampleCount": 100,
+          "count": 0,
+          "note": "Synthetic measurement."
+        },
+        {
+          "kind": "trace",
+          "ref": "artifact:synthetic-traces#trace=sample",
+          "value": null
+        },
+        {
+          "kind": "fingerprint",
+          "value": "SELECT synthetic_column FROM synthetic_table WHERE synthetic_id = ?",
+          "count": 3
+        },
+        {
+          "kind": "artifact",
+          "ref": "artifact:synthetic-evidence",
+          "value": {
+            "available": true,
+            "samples": [
+              1,
+              null
+            ]
+          }
+        },
+        {
+          "kind": "threshold",
+          "value": false
+        },
+        {
+          "kind": "quality",
+          "value": [
+            "missing_telemetry"
+          ]
+        },
+        {
+          "kind": "note",
+          "note": "Synthetic context only."
+        }
+      ],
+      "limitations": [
+        "Synthetic evidence only; no application diagnosis is supported."
+      ],
+      "recommendations": [
+        "Collect the required telemetry before drawing a conclusion."
+      ],
+      "docs": "docs/checks/synthetic.md"
+    }
+  ],
+  "comparison": {
+    "comparisonId": "synthetic-comparison",
+    "policyVersion": "comparison/1",
+    "method": "fixed_threshold",
+    "baselineRunId": "synthetic-baseline",
+    "candidateRunId": "01990000-0000-7000-8000-000000000001",
+    "compatibility": {
+      "status": "compatible",
+      "reasons": []
+    },
+    "metrics": [
+      {
+        "metric": "http_req_duration",
+        "aggregation": "p95",
+        "unit": "ms",
+        "baseline": 200,
+        "candidate": 350,
+        "absoluteDelta": 150,
+        "relativeDelta": 0.75,
+        "status": "fail"
+      }
+    ],
+    "verdict": "fail",
+    "limitations": [
+      "single-run comparison; noise not estimated"
+    ]
+  },
+  "limitations": [
+    "Synthetic documentation example; identities/hashes are illustrative, not a reproducible run.",
+    "Server-side latency unavailable: telemetry not configured."
+  ],
+  "redaction": {
+    "policyVersion": "redaction/1",
+    "redactedFields": 0,
+    "partial": false
+  },
+  "artifacts": [
+    {
+      "kind": "evidence",
+      "key": "synthetic/report-evidence.json",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "bytes": 128,
+      "mediaType": "application/json"
+    }
+  ]
+}

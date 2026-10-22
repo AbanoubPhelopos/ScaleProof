@@ -2,6 +2,11 @@
 
 These are operating instructions for AI coding agents (and humans) working in this repository. The format follows the [agents.md](https://agents.md) convention. Tool-specific files (`CLAUDE.md`, `.github/copilot-instructions.md`, …) should only point here.
 
+If `GITHUB_RULES.md` exists in this checkout, read it before phase, commit, review,
+or PR work. It contains local workflow instructions and is intentionally ignored
+by Git; checkouts without it remain usable. It does not change specification
+precedence, accept Proposed ADRs, or configure GitHub enforcement.
+
 ## What this project is
 
 ScaleProof is a self-hosted tool that turns backend load tests into reproducible experiments:
@@ -71,7 +76,7 @@ Dependency rules are enforced by architecture tests ([blueprint](docs/architectu
 
 ```bash
 dotnet build ScaleProof.sln                     # verified: builds the scaffolding
-dotnet test                                     # planned: no test projects yet
+dotnet test                                     # unit/architecture and schema foundation tests
 ```
 
 The full planned workflow is in [local development](docs/engineering/local-development.md). Never claim that a command passed unless you ran it and saw it pass.
@@ -226,6 +231,7 @@ ADRs live in `docs/decisions/`. Accepted decisions are binding constraints. Prop
 | [ADR-021](docs/decisions/ADR-021-keep-postgresql-lease-queue.md) | Keep purpose-built PostgreSQL lease queue (vs Hangfire/Wolverine) | Proposed |
 | [ADR-022](docs/decisions/ADR-022-plugin-first-delivery.md) | Local CLI/sidecar first; worker orchestration and deterministic analysis; proposed partial supersession of ADR-002/009 | Proposed |
 | [ADR-023](docs/decisions/ADR-023-local-ai-assistance.md) | Local AI credentials, reviewed drafts, independent evidence explanations | Proposed |
+| [ADR-024](docs/decisions/ADR-024-contract-test-foundation.md) | Contract/unit test projects, dependency pins, offline schema and architecture checks | Proposed |
 
 ### ADR lifecycle
 

@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" Version="3.2.2" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" PrivateAssets="all" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" PrivateAssets="all" />
+    <PackageReference Include="Verify.XunitV3" Version="31.17.0" PrivateAssets="all" />
+    <PackageReference Include="JsonSchema.Net" Version="9.4.1" PrivateAssets="all" />
+    <Using Include="Xunit" />
+    <ProjectReference Include="../../src/ScaleProof.Contracts/ScaleProof.Contracts.csproj" />
+    <Content Include="../../schemas/**/*.json" Link="Schemas/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../fixtures/foundation/**/*.json" Link="Fixtures/Foundation/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../fixtures/scenario/**/*.json" Link="Fixtures/Scenario/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../fixtures/check-result/**/*.json" Link="Fixtures/CheckResult/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../fixtures/report/**/*.json" Link="Fixtures/Report/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Snapshots/*.verified.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

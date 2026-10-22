@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "scaleproof.scenario/v1",
+  "name": "sample-arrival",
+  "target": {
+    "profile": "sample-api"
+  },
+  "workload": {
+    "engine": "k6",
+    "profile": "arrival_rate",
+    "rate": 10,
+    "preAllocatedVUs": 2,
+    "maxVUs": 5,
+    "windows": {
+      "measurement": "1m"
+    }
+  },
+  "requests": [
+    {
+      "name": "sample-read",
+      "method": "HEAD",
+      "path": "/items",
+      "headers": {
+        "Authorization": {
+          "secretRef": "sample-token"
+        }
+      },
+      "params": {
+        "id": {
+          "dataset": "sample-ids",
+          "pick": "random_seeded"
+        },
+        "other": {
+          "dataset": "sample-ids",
+          "pick": "round_robin"
+        }
+      }
+    }
+  ],
+  "classification": {
+    "environment": "test"
+  }
+}

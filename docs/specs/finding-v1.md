@@ -74,3 +74,15 @@ Severity and confidence are independent. For example, "high severity, low confid
 ## AI boundary — Proposed (ADR-023)
 
 Built-in checks execute deterministically in the server Application layer over admitted evidence. AI output is not a CheckResult and cannot edit its status, severity, confidence, evidence, or recommendations. Display optional model hypotheses in a separately labeled explanation artifact linked to the report hash. Missing telemetry is not evidence that the backend has no database; distinguish unavailable evidence from an explicitly inapplicable check.
+
+## .NET wire model
+
+[`FindingV1`](../../src/ScaleProof.Contracts/Findings/FindingV1.cs) and
+[`FindingJsonContext`](../../src/ScaleProof.Contracts/Findings/FindingJsonContext.cs)
+provide the implemented check-result v1 wire model and serialization metadata.
+Validate against the existing schema before deserialization; DTO reading does
+not enforce the conditional evidence-or-limitation rule or evaluate a check.
+Additive root/evidence properties are ignored, consistent with the schema; known
+fields survive round trips. See [finding contract tests](../../tests/README.md#finding-v1-contracts-m0-p01-t04)
+for coverage and reader limits. Heuristic identification and meaningful limitation
+text remain evaluator responsibilities.

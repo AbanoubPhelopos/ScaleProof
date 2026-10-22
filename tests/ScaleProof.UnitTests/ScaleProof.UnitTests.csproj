@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <IsTestProject>true</IsTestProject>
+    <IsPackable>false</IsPackable>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" Version="3.2.2" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.0" PrivateAssets="all" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" PrivateAssets="all" />
+    <PackageReference Include="NetArchTest.Rules" Version="1.3.2" PrivateAssets="all" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/ScaleProof.Domain/ScaleProof.Domain.csproj" />
+    <ProjectReference Include="../../src/ScaleProof.Application/ScaleProof.Application.csproj" />
+    <ProjectReference Include="../../src/ScaleProof.Contracts/ScaleProof.Contracts.csproj" />
+    <ProjectReference Include="../../src/ScaleProof.Execution/ScaleProof.Execution.csproj" />
+    <ProjectReference Include="../../src/ScaleProof.Infrastructure/ScaleProof.Infrastructure.csproj" />
+    <ProjectReference Include="../../src/ScaleProof.Api/ScaleProof.Api.csproj" />
+    <ProjectReference Include="../../src/ScaleProof.Worker/ScaleProof.Worker.csproj" />
+    <ProjectReference Include="../../src/ScaleProof.Agent/ScaleProof.Agent.csproj" />
+    <Content Include="../../src/*/*.csproj" Link="Architecture/Projects/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>
