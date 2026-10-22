@@ -18,6 +18,7 @@
     <Content Include="../fixtures/foundation/**/*.json" Link="Fixtures/Foundation/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../fixtures/scenario/**/*.json" Link="Fixtures/Scenario/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="../fixtures/check-result/**/*.json" Link="Fixtures/CheckResult/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="../fixtures/report/**/*.json" Link="Fixtures/Report/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <Content Include="Snapshots/*.verified.txt" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

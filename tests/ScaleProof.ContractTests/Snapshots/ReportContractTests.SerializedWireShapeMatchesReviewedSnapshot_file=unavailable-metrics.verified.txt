@@ -1,0 +1,149 @@
+﻿{
+  "schemaVersion": "scaleproof.report/v1",
+  "reportVersion": 1,
+  "generatedAt": "2026-01-01T00:00:00Z",
+  "tool": {
+    "name": "scaleproof",
+    "version": "0.1.0"
+  },
+  "run": {
+    "runId": "01990000-0000-7000-8000-000000000001",
+    "attemptId": "01990000-0000-7000-8000-000000000002",
+    "attemptOrdinal": 1,
+    "projectId": "01990000-0000-7000-8000-000000000003",
+    "lifecycle": "completed",
+    "qualityStatus": "inconclusive",
+    "outcome": null,
+    "terminationReason": "completed",
+    "executionLocation": "local_agent"
+  },
+  "identity": {
+    "scenario": {
+      "hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "target": {
+      "hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "policy": {
+      "hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "engine": {
+      "id": "k6",
+      "version": "1.0.0",
+      "adapterVersion": "1"
+    },
+    "build": null,
+    "environment": {
+      "fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    }
+  },
+  "workload": {
+    "profile": "smoke",
+    "windows": [],
+    "offeredRate": null,
+    "achievedRate": null,
+    "droppedIterations": null
+  },
+  "metrics": [
+    {
+      "metric": "http_req_duration",
+      "aggregation": "p99",
+      "unit": "ms",
+      "value": null,
+      "sampleCount": 0,
+      "percentileStatus": "suppressed",
+      "window": "warmup",
+      "source": "k6",
+      "definitionVersion": 1,
+      "unavailableReason": "insufficient_samples"
+    },
+    {
+      "metric": "http_req_duration",
+      "aggregation": "p99",
+      "unit": "ms",
+      "value": null,
+      "sampleCount": 0,
+      "percentileStatus": null,
+      "window": "measurement",
+      "source": "adapter",
+      "definitionVersion": 1,
+      "unavailableReason": "not_collected"
+    },
+    {
+      "metric": "http_req_duration",
+      "aggregation": "p99",
+      "unit": "ms",
+      "value": null,
+      "sampleCount": 0,
+      "percentileStatus": null,
+      "window": "rampdown",
+      "source": "worker",
+      "definitionVersion": 1,
+      "unavailableReason": "telemetry_unavailable"
+    },
+    {
+      "metric": "http_req_duration",
+      "aggregation": "p99",
+      "unit": "ms",
+      "value": null,
+      "sampleCount": 0,
+      "percentileStatus": null,
+      "window": "measurement",
+      "source": "agent",
+      "definitionVersion": 1,
+      "unavailableReason": "redacted"
+    },
+    {
+      "metric": "http_req_duration",
+      "aggregation": "p99",
+      "unit": "ms",
+      "value": null,
+      "sampleCount": 0,
+      "percentileStatus": null,
+      "window": "measurement",
+      "source": "otel",
+      "definitionVersion": 1,
+      "unavailableReason": "engine_unsupported"
+    },
+    {
+      "metric": "http_req_failed",
+      "aggregation": "rate",
+      "unit": "ratio",
+      "value": 0,
+      "sampleCount": 1,
+      "percentileStatus": null,
+      "window": "measurement",
+      "source": "k6",
+      "definitionVersion": 1,
+      "unavailableReason": null
+    },
+    {
+      "metric": "http_req_duration",
+      "aggregation": "p95",
+      "unit": "ms",
+      "value": 241.9,
+      "sampleCount": 100,
+      "percentileStatus": "unstable",
+      "window": "measurement",
+      "source": "k6",
+      "definitionVersion": 1,
+      "unavailableReason": null
+    }
+  ],
+  "thresholds": [],
+  "quality": {
+    "status": "inconclusive",
+    "policyVersion": "quality/1",
+    "reasons": []
+  },
+  "findings": [],
+  "comparison": null,
+  "limitations": [
+    "Schema-resolution fixture only; hashes are illustrative and no workload was run."
+  ],
+  "redaction": {
+    "policyVersion": "redaction/1",
+    "partial": false
+  },
+  "artifacts": []
+}

@@ -7,7 +7,8 @@ the eight production project declarations, compiled assembly references, and
 forbidden namespace dependencies. `ScaleProof.ContractTests` builds the three
 checked-in schemas in a local registry and verifies nested finding resolution,
 format validation, unknown-reference refusal, and the schema inventory snapshot.
-Scenario and finding v1 DTOs have schema, serialization, and reviewed wire snapshot tests.
+Scenario, finding, and report v1 DTOs have schema, serialization, and reviewed
+wire snapshot tests.
 Production hosts are not started. Validators, runtime workflows, integration,
 frontend, and end-to-end tests are not implemented by this foundation.
 
@@ -63,8 +64,7 @@ with illustrative hashes and no claim that an experiment was run or is runnable.
 
 The initial Verify baseline records schema IDs, sorted root required fields, and
 root unknown-property behavior. It is an inventory check, not full-schema drift
-coverage. Scenario and finding wire snapshots accompany the v1 fixtures; report
-DTO coverage arrives in a later task.
+coverage. Scenario, finding, and report wire snapshots accompany their v1 fixtures.
 
 Reviewed baselines live in `ScaleProof.ContractTests/Snapshots/` and are copied to
 the test output's `Snapshots/` directory. On a mismatch, Verify writes a
@@ -161,3 +161,60 @@ fixture; not_applicable has an explicitly known synthetic precondition. No check
 evaluator, telemetry interpretation, reference resolution, I/O, authorization,
 cancellation, idempotency workflow, or runtime redaction is implemented here.
 The documentation reference in the synthetic fixture is illustrative.
+
+## Report v1 contracts (M0-P01-T05)
+
+`ScaleProof.Contracts.Reports.ReportV1` and `ReportJsonContext.Default` model the
+report wire contract with generated metadata and nested `FindingV1` objects.
+Lifecycle, quality status, outcome, threshold status, and finding status remain
+separate types. No report field computes measurements, thresholds, quality,
+comparison eligibility, deltas, or verdicts. Build identity, comparison payloads,
+and quality-reason entries retain JSON because their schema shapes are open.
+Known documented fields such as environment agentId and threshold request scope
+are modeled; other additive typed-object properties are ignored at every level.
+
+Required nullable quality/outcome fields always write explicit null when unknown.
+Metric values and threshold observations use required `JsonElement` members to
+preserve numeric tokens or null without inventing zero. Optional rate/build/
+comparison JSON retains omission versus explicit null. `ReportOptional<T>` is a
+small serialization value type used for optional nullable timestamps, dropped
+iteration counts, percentile status, and unavailable reasons. Its default means
+absent; constructing it (including with null) marks it present. Closed generic
+property converters write just the underlying JSON value, not wrapper metadata.
+No execution defaults are applied. Ordinary optional non-nullable wire fields
+remain nullable C# members and omit null; schema validation rejects explicit null
+for those fields before reading.
+
+The report schemaVersion property converter rejects unsupported version strings
+on reading and writing. Timestamp metadata uses DateTimeOffset and a UTC converter
+at all typed timestamp positions, including optional nullable ones: explicit Z or
++00:00 is required; output uses Z. Instants retain .NET tick precision (100 ns),
+not the input's lexical formatting. Counters/versions/durations/bytes use Int64;
+overflow is a reader failure. Numeric measurements retain raw JSON precision.
+
+Existing schema/prose gaps are explicit: schema `date-time` permits non-UTC
+offsets while normative report prose requires UTC; the reader enforces the prose.
+Threshold metric/aggregation/operator/value/unit and artifact kind/key/mediaType
+are required but not type-constrained in the current schema. DTOs model the
+string/JSON values from the documented shape; schema validation alone cannot
+prove a report fits every reader or every semantic invariant. The schema remains
+unchanged. Cross-field lifecycle/quality/outcome policy, diagnostic-tunnel
+limitations, metric adequacy, and measurement-window rules remain later producer/
+validator obligations. No new error-code API mapping exists.
+
+Eight valid fixtures under `fixtures/report/v1/valid/` cover completed, failed,
+cancelled before start, partial evidence, all unavailable reasons, explicit zero,
+nested findings, fixed-threshold comparison data, and reserved locations/profiles.
+Reserved wire data is not runtime authorization. Comparison fixture data is
+synthetic; no comparison or Proposed statistics algorithm is implemented.
+Nineteen invalid payloads and `invalid/expectations.json` identify schema failure
+locations/keywords and reader failures. Non-UTC cases are marked schema-valid
+because they fail the stricter normative reader boundary.
+
+Tests validate both input/output schemas with offline finding resolution, compare
+complete known JSON trees, and review raw serialization snapshots. Additive fields
+are tested at 21 typed root/nested object locations. Required root fields, missing
+metric values/reasons, null versus omission, precision, unsupported versions,
+UTC/timestamp formatting, invalid nested findings, and Int64 overflow are covered.
+These are contract checks, not report rendering, engine ingestion, runtime
+redaction, traffic, authorization, cancellation, or idempotency acceptance tests.

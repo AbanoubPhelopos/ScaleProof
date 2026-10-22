@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "scaleproof.report/v1",
+  "reportVersion": 1,
+  "generatedAt": "2026-01-01T00:00:00Z",
+  "tool": {
+    "name": "scaleproof",
+    "version": "0.1.0"
+  },
+  "run": {
+    "runId": "01990000-0000-7000-8000-000000000001",
+    "attemptId": "01990000-0000-7000-8000-000000000002",
+    "attemptOrdinal": 1,
+    "projectId": "01990000-0000-7000-8000-000000000003",
+    "lifecycle": "completed",
+    "qualityStatus": "inconclusive",
+    "outcome": null,
+    "terminationReason": "completed",
+    "executionLocation": "local_agent"
+  },
+  "identity": {
+    "scenario": {
+      "hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "target": {
+      "hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "policy": {
+      "hash": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "engine": {
+      "id": "k6",
+      "version": "1.0.0",
+      "adapterVersion": "1"
+    },
+    "environment": {
+      "fingerprint": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    }
+  },
+  "workload": {
+    "profile": "smoke",
+    "windows": []
+  },
+  "metrics": [
+    {
+      "metric": "http_req_duration",
+      "aggregation": "p95",
+      "unit": "ms",
+      "value": null,
+      "sampleCount": 5964,
+      "percentileStatus": "stable",
+      "window": "measurement",
+      "source": "k6",
+      "definitionVersion": 1,
+      "unavailableReason": null
+    }
+  ],
+  "thresholds": [],
+  "quality": {
+    "status": "inconclusive",
+    "policyVersion": "quality/1",
+    "reasons": []
+  },
+  "findings": [],
+  "limitations": [
+    "Schema-resolution fixture only; hashes are illustrative and no workload was run."
+  ],
+  "redaction": {
+    "policyVersion": "redaction/1",
+    "partial": false
+  },
+  "artifacts": []
+}
