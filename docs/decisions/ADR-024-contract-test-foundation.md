@@ -165,7 +165,8 @@ slices. Fixture hygiene does not establish runtime redaction.
 - US-023 says every non-pass outcome needs evidence or an unavailable reason;
   the normative [finding spec](../specs/finding-v1.md#field-semantics) and schema
   exempt `not_applicable` and `skipped` as well as `pass`. Follow the normative
-  exemptions in finding fixtures; align the lower-precedence story in that task.
+  exemptions in finding fixtures. Resolved in review M0-P01-R01 by aligning the
+  lower-precedence story with the normative exemptions; the schema is unchanged.
 - The [scenario field table](../specs/scenario-v1.md#field-reference) describes
   smoke `iterations` and `vus` with a five-VU maximum. The schema's smoke branch
   requires only `iterations` and its shared `vus` has no smoke-specific maximum.
