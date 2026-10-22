@@ -17,14 +17,19 @@ frontend, and end-to-end tests are not implemented by this foundation.
 From the repository root, after installing the SDK selected by `global.json`:
 
 ```sh
+rtk proxy python3 -B -m unittest discover -s scripts/tests -v
+rtk proxy python3 -B scripts/check_fixture_secrets.py
 rtk proxy dotnet restore ScaleProof.sln --locked-mode
-rtk proxy dotnet test tests/ScaleProof.UnitTests/ScaleProof.UnitTests.csproj --no-restore
-rtk proxy dotnet test tests/ScaleProof.ContractTests/ScaleProof.ContractTests.csproj --no-restore
-rtk proxy dotnet build ScaleProof.sln --no-restore
+rtk proxy dotnet build ScaleProof.sln --configuration Release --no-restore -warnaserror
+rtk proxy dotnet test tests/ScaleProof.UnitTests/ScaleProof.UnitTests.csproj --configuration Release --no-build --no-restore --logger "trx;LogFileName=unit.trx" --results-directory "$PWD/artifacts/test-results/unit"
+rtk proxy dotnet test tests/ScaleProof.ContractTests/ScaleProof.ContractTests.csproj --configuration Release --no-build --no-restore --logger "trx;LogFileName=contracts.trx" --results-directory "$PWD/artifacts/test-results/contracts"
 rtk proxy git diff --check
 ```
 
-These commands use VSTest with the pinned xUnit v3 adapter. MSBuild and VSTest
+These commands match CI flags and use VSTest with the pinned xUnit v3 adapter.
+`rtk proxy` is the local command wrapper; CI runs the underlying commands directly.
+Python 3 is required for the standard-library hygiene script/tests; no pip packages
+are needed. Build Release before using `--no-build`. MSBuild and VSTest
 require local IPC sockets; a restricted execution sandbox may need permission
 to run these commands. Restore may access NuGet. Tests use output-local project
 copies, schemas, fixtures, and snapshots; they require no internet or services.
@@ -218,3 +223,60 @@ metric values/reasons, null versus omission, precision, unsupported versions,
 UTC/timestamp formatting, invalid nested findings, and Int64 overflow are covered.
 These are contract checks, not report rendering, engine ingestion, runtime
 redaction, traffic, authorization, cancellation, or idempotency acceptance tests.
+
+## Contract foundation CI (M0-P01-T06)
+
+[The workflow](../.github/workflows/contract-foundation.yml) runs on pull requests
+whose base is master and on pushes to master, without path filters. It runs the
+commands above on Ubuntu 24.04 after installing the SDK selected by global.json.
+The existing rollForward policy remains in force; this is not an assertion that
+all machines use an identical SDK patch. Actions are pinned to full upstream
+commit SHAs (major-version comments identify the selected release lines).
+Updating an action requires reviewing the upstream change and replacing its pin.
+The workflow neither installs RTK nor configures repository branch protection.
+
+The job has contents:read permission, disables persisted checkout credentials,
+and passes no repository secrets to test commands. Fixture hygiene runs before
+restore/build/tests. A failure there stops subsequent normal steps and prevents
+diagnostic artifact upload. After a successful build, both .NET suites run even
+if the first suite fails; each failure still makes the job fail. Cancelled runs
+skip remaining test/upload work. Repeated runs for the same ref cancel older runs.
+
+The diagnostics artifact retains separate unit/contracts TRX reports and the
+contract output's received/verified snapshot files for seven days, including on
+test failure. Console diagnostics remain in workflow logs. Paths are restricted
+to test results and snapshot files; binaries, entire workspaces and environment
+files are not uploaded. No-files-found warns rather than hiding an earlier build
+failure. A hosted workflow run can only be confirmed after the workflow reaches
+a triggering pull request/push; local execution/lint is not a hosted run.
+
+Snapshot mismatches fail. No received file is copied to a source baseline by CI,
+and no automatic Verify acceptance is configured. Download diagnostics, compare
+received/verified values with the relevant spec/schema and fixture, then review
+and intentionally update the source baseline as described above. Schema coverage
+is the implemented schema/fixture assertions plus the partial inventory snapshot,
+not a claim that every possible schema change is automatically detected.
+
+### Synthetic fixture hygiene
+
+[`check_fixture_secrets.py`](../scripts/check_fixture_secrets.py) scans all JSON
+files under tests/fixtures and all reviewed *.verified.txt source snapshots. It
+checks common private-key/token/authorization/password patterns plus decoded JSON
+credential fields. JSON escapes are decoded, so escaped token strings and keys
+are inspected too. The initial non-JSON schema-inventory snapshot receives raw
+text pattern checks. Secret-reference objects with Bearer {value} format templates,
+synthetic hashes, numeric precision examples and artifact keys are allowed without
+blanket path exclusions. Reference objects still have their nested fields scanned.
+
+Matches fail with filenames and rule names, never matched input values. Invalid
+fixture JSON, unreadable UTF-8, missing/empty scopes and symlinks also fail. The
+script locates its root from its own path; --root is available for synthetic test
+controls. Python's -B keeps bytecode out of the checkout. Fifteen standard-library
+unit tests cover positive/negative patterns, escapes, safe reporting and failure
+conditions using temporary files and constructed synthetic canaries.
+
+This is bounded fixture hygiene, not an exhaustive secret/PII detector, runtime
+redaction implementation or substitute for reviewing synthetic data. No check
+rewrites data or accepts a snapshot. Hosted setup/actions and package restore may
+use network access; the scanner and .NET test suites require no external service.
+CI does not run absent integration, k6, frontend or end-to-end checks.

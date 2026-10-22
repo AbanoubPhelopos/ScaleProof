@@ -41,6 +41,15 @@ acceptance coverage.
 - Tests never depend on internet access. k6 binaries are pinned in CI.
 - Every bug fix includes a regression test that fails without the fix.
 
+## Implemented foundation CI
+
+The [contract foundation workflow](../../.github/workflows/contract-foundation.yml)
+currently runs fixture hygiene, locked restore, a warnings-as-errors Release
+build, unit/architecture tests, and schema/serialization golden tests on master
+PRs and pushes. See [commands, diagnostics and snapshot review](../../tests/README.md#contract-foundation-ci-m0-p01-t06).
+The wider pipeline below remains a target; this workflow does not implement its
+integration, engine, frontend or end-to-end gates.
+
 ## CI pipeline (target)
 
 ```mermaid
