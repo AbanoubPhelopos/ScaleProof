@@ -1,0 +1,120 @@
+{
+  "schemaVersion": "scaleproof.scenario/v1",
+  "name": "sample-fixed",
+  "target": {
+    "profile": "sample-api",
+    "basePath": "/api"
+  },
+  "workload": {
+    "engine": "k6",
+    "profile": "fixed_vus",
+    "vus": 3,
+    "windows": {
+      "warmUp": "1s",
+      "measurement": "20s",
+      "rampDown": "0s"
+    },
+    "timeouts": {
+      "request": "500ms",
+      "gracefulStop": "15s"
+    },
+    "limits": {
+      "maxRequests": 500,
+      "maxRequestBytes": "64KiB",
+      "maxResponseBytes": "1MiB"
+    }
+  },
+  "requests": [
+    {
+      "name": "sample-read",
+      "method": "GET",
+      "path": "/items/{id}",
+      "weight": 1,
+      "headers": {
+        "Accept": "application/json",
+        "Authorization": {
+          "secretRef": "sample-token",
+          "format": "Bearer {value}"
+        }
+      },
+      "params": {
+        "id": {
+          "dataset": "sample-ids"
+        },
+        "page": 2,
+        "active": true,
+        "label": "synthetic",
+        "precision": 0.12345678901234568
+      },
+      "assertions": [
+        {
+          "status": [
+            200,
+            404
+          ]
+        },
+        {
+          "header": {
+            "name": "content-type",
+            "contains": "application/json",
+            "equals": "application/json"
+          }
+        },
+        {
+          "jsonPath": {
+            "path": "$.items",
+            "exists": true,
+            "equals": null
+          }
+        }
+      ]
+    }
+  ],
+  "classification": {
+    "environment": "local",
+    "mutation": false
+  },
+  "description": "Synthetic contract fixture.",
+  "capture": {
+    "mode": "metadata_only"
+  },
+  "report": {
+    "formats": [
+      "json",
+      "markdown"
+    ]
+  },
+  "thresholds": [
+    {
+      "metric": "http_req_duration",
+      "aggregation": "p95",
+      "operator": "<",
+      "value": 300,
+      "unit": "ms",
+      "request": "sample-read"
+    }
+  ],
+  "abort": [
+    {
+      "metric": "http_req_failed",
+      "aggregation": "rate",
+      "operator": ">=",
+      "value": 0.5,
+      "unit": "ratio",
+      "over": "10s"
+    }
+  ],
+  "checks": [
+    {
+      "id": "scaleproof.repeated-query",
+      "version": 1,
+      "config": {
+        "minRepetitions": 5,
+        "nested": {
+          "synthetic": true
+        },
+        "nullValue": null
+      }
+    }
+  ]
+}

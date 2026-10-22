@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "scaleproof.scenario/v1",
+  "name": "reserved-steps",
+  "target": {
+    "profile": "sample-api"
+  },
+  "workload": {
+    "engine": "k6",
+    "profile": "steps",
+    "preAllocatedVUs": 2,
+    "maxVUs": 5,
+    "stages": [
+      {
+        "rate": 2,
+        "duration": "1m"
+      },
+      {
+        "rate": 5,
+        "duration": "30s"
+      }
+    ],
+    "windows": {
+      "measurement": "90s"
+    }
+  },
+  "requests": [
+    {
+      "name": "reserved-options",
+      "method": "OPTIONS",
+      "path": "/synthetic"
+    },
+    {
+      "name": "reserved-post",
+      "method": "POST",
+      "path": "/synthetic",
+      "body": {
+        "contentType": "application/json",
+        "json": {
+          "label": "synthetic",
+          "items": [
+            1,
+            true,
+            null
+          ]
+        }
+      }
+    },
+    {
+      "name": "reserved-put",
+      "method": "PUT",
+      "path": "/synthetic",
+      "body": {
+        "contentType": "application/json",
+        "dataset": "sample-bodies"
+      }
+    },
+    {
+      "name": "reserved-patch",
+      "method": "PATCH",
+      "path": "/synthetic",
+      "body": {
+        "contentType": "application/json",
+        "json": null
+      }
+    },
+    {
+      "name": "reserved-delete",
+      "method": "DELETE",
+      "path": "/synthetic"
+    }
+  ],
+  "classification": {
+    "environment": "staging",
+    "mutation": true
+  },
+  "capture": {
+    "mode": "allow_listed"
+  }
+}

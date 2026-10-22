@@ -94,7 +94,7 @@ report:
 | `target.profile` | slug | yes | Must name an existing target profile in the project. |
 | `target.basePath` | path | no | Must start with `/`. Normalized (no `..`, `//`, or encoded traversal) and contained in an allowed base path. |
 | `workload.engine` | enum | yes | `k6` only in v1. |
-| `workload.profile` | enum | yes | `smoke`: `iterations` (≤ 100), `vus` (≤ 5). `fixed_vus`: `vus`. `arrival_rate`: `rate`, `timeUnit`, `preAllocatedVUs`, `maxVUs`. `steps` (M1): `stages[]` of `{rate, duration}`. |
+| `workload.profile` | enum | yes | `smoke`: required `iterations` (≤ 100), optional `vus` (≤ 5; semantic limit). `fixed_vus`: `vus`. `arrival_rate`: `rate`, `timeUnit`, `preAllocatedVUs`, `maxVUs`. `steps` (M1): `stages[]` of `{rate, duration}`. |
 | `workload.windows.*` | duration | `measurement` required | `warmUp` and `rampDown` default to `0s`. Only `measurement` feeds thresholds (FR-011). |
 | `workload.timeouts.request` | duration | no | Default `10s`, max `60s`. |
 | `workload.limits.*` | integer / size | no | Requests above the policy cap give `LIMIT_EXCEEDS_POLICY`. Caps are never silently clamped. |
@@ -173,3 +173,14 @@ See [ADR-008](../decisions/ADR-008-versioned-immutable-contracts.md) and the con
 Scenario v1 remains the engine-independent execution contract. Imported OpenAPI operations and AI text are candidate inputs, not executable authority. Only selected and explicitly confirmed non-mutating operations may publish/run. GET method semantics alone do not establish safety. Check placeholder and dataset/auth-reference completeness without reading secret values into snapshots or model context. Initial-release method/mutation restrictions are enforced on manual scenarios too, even where the schema reserves future write methods.
 
 A published AI draft becomes an ordinary immutable scenario version through the review/publication API. Store AI input hash, model/prompt version, and approver in separate provenance records; do not add them as unknown scenario fields or alter the scenario hash semantics. Publish does not launch. See [AI assistance](ai-assistance.md) for disclosure and revision-bound review.
+
+## .NET wire model
+
+The implemented foundation model is
+[`ScenarioV1`](../../src/ScaleProof.Contracts/Scenarios/ScenarioV1.cs), with
+[`ScenarioJsonContext`](../../src/ScaleProof.Contracts/Scenarios/ScenarioJsonContext.cs)
+serialization metadata. It retains optional input fields without resolving
+execution defaults. JSON Schema validation precedes the DTO reader; reading a
+DTO does not establish schema validity, target authorization, or admission to
+execution. See [contract tests and reader boundaries](../../tests/README.md#scenario-v1-contracts-m0-p01-t03)
+for fixture coverage and numeric representation limits.
