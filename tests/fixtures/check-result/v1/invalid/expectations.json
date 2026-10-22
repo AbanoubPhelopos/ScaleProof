@@ -1,0 +1,122 @@
+[
+  {
+    "file": "fail-without-support.json",
+    "pointer": "",
+    "keyword": "anyOf",
+    "readerRejects": false
+  },
+  {
+    "file": "warn-without-support.json",
+    "pointer": "",
+    "keyword": "anyOf",
+    "readerRejects": false
+  },
+  {
+    "file": "inconclusive-without-support.json",
+    "pointer": "",
+    "keyword": "anyOf",
+    "readerRejects": false
+  },
+  {
+    "file": "error-without-support.json",
+    "pointer": "",
+    "keyword": "anyOf",
+    "readerRejects": false
+  },
+  {
+    "file": "missing-status.json",
+    "pointer": "",
+    "keyword": "required",
+    "readerRejects": true
+  },
+  {
+    "file": "missing-evidence-kind.json",
+    "pointer": "/evidence/0",
+    "keyword": "required",
+    "readerRejects": true
+  },
+  {
+    "file": "unknown-status.json",
+    "pointer": "/status",
+    "keyword": "enum",
+    "readerRejects": true
+  },
+  {
+    "file": "numeric-status.json",
+    "pointer": "/status",
+    "keyword": "enum",
+    "readerRejects": true
+  },
+  {
+    "file": "unknown-severity.json",
+    "pointer": "/severity",
+    "keyword": "enum",
+    "readerRejects": true
+  },
+  {
+    "file": "probability-confidence.json",
+    "pointer": "/confidence",
+    "keyword": "enum",
+    "readerRejects": true
+  },
+  {
+    "file": "unknown-evidence-kind.json",
+    "pointer": "/evidence/0/kind",
+    "keyword": "enum",
+    "readerRejects": true
+  },
+  {
+    "file": "negative-sample-count.json",
+    "pointer": "/evidence/0/sampleCount",
+    "keyword": "minimum",
+    "readerRejects": false
+  },
+  {
+    "file": "string-count.json",
+    "pointer": "/evidence/0/count",
+    "keyword": "type",
+    "readerRejects": true
+  },
+  {
+    "file": "zero-check-version.json",
+    "pointer": "/checkVersion",
+    "keyword": "minimum",
+    "readerRejects": false
+  },
+  {
+    "file": "unsupported-schema-version.json",
+    "pointer": "/schemaVersion",
+    "keyword": "const",
+    "readerRejects": false
+  },
+  {
+    "file": "null-evidence.json",
+    "pointer": "/evidence",
+    "keyword": "type",
+    "readerRejects": true
+  },
+  {
+    "file": "null-title.json",
+    "pointer": "/title",
+    "keyword": "type",
+    "readerRejects": true
+  },
+  {
+    "file": "null-count.json",
+    "pointer": "/evidence/0/count",
+    "keyword": "type",
+    "readerRejects": false
+  },
+  {
+    "file": "invalid-check-id.json",
+    "pointer": "/checkId",
+    "keyword": "pattern",
+    "readerRejects": false
+  },
+  {
+    "file": "title-too-long.json",
+    "pointer": "/title",
+    "keyword": "maxLength",
+    "readerRejects": false
+  }
+]

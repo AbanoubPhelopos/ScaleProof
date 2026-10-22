@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "scaleproof.check-result/v1",
+  "checkId": "scaleproof.thresholds",
+  "checkVersion": 1,
+  "status": "skipped",
+  "severity": "info",
+  "confidence": "high",
+  "title": "Synthetic threshold result",
+  "summary": "The check is explicitly disabled by synthetic configuration.",
+  "evidence": [],
+  "limitations": [],
+  "recommendations": []
+}

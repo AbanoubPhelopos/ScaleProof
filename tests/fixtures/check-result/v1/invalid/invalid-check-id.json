@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "scaleproof.check-result/v1",
+  "checkId": "INVALID",
+  "checkVersion": 1,
+  "status": "fail",
+  "severity": "high",
+  "confidence": "low",
+  "title": "Synthetic threshold result",
+  "summary": "Contract fixture only; no check was executed.",
+  "evidence": [
+    {
+      "kind": "metric",
+      "ref": "http_req_duration",
+      "request": "sample-read",
+      "aggregation": "p95",
+      "value": 350.5,
+      "unit": "ms",
+      "sampleCount": 100,
+      "count": 0,
+      "note": "Synthetic measurement."
+    }
+  ],
+  "limitations": [],
+  "recommendations": []
+}

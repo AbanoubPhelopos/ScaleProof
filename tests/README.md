@@ -7,7 +7,7 @@ the eight production project declarations, compiled assembly references, and
 forbidden namespace dependencies. `ScaleProof.ContractTests` builds the three
 checked-in schemas in a local registry and verifies nested finding resolution,
 format validation, unknown-reference refusal, and the schema inventory snapshot.
-Scenario v1 DTOs now have schema, serialization, and reviewed wire snapshot tests.
+Scenario and finding v1 DTOs have schema, serialization, and reviewed wire snapshot tests.
 Production hosts are not started. Validators, runtime workflows, integration,
 frontend, and end-to-end tests are not implemented by this foundation.
 
@@ -63,8 +63,8 @@ with illustrative hashes and no claim that an experiment was run or is runnable.
 
 The initial Verify baseline records schema IDs, sorted root required fields, and
 root unknown-property behavior. It is an inventory check, not full-schema drift
-coverage. Scenario wire snapshots accompany the v1 fixtures; finding/report DTO coverage
-arrives in later tasks.
+coverage. Scenario and finding wire snapshots accompany the v1 fixtures; report
+DTO coverage arrives in a later task.
 
 Reviewed baselines live in `ScaleProof.ContractTests/Snapshots/` and are copied to
 the test output's `Snapshots/` directory. On a mismatch, Verify writes a
@@ -124,3 +124,40 @@ precision in parameters and thresholds. Review source snapshots against their
 input fixtures before accepting a change. Neither snapshots nor schema checks
 establish authorization, cancellation, idempotency, traffic safety, or redaction
 of runtime secrets; no traffic or secret values enter this task.
+
+## Finding v1 contracts (M0-P01-T04)
+
+`ScaleProof.Contracts.Findings.FindingV1` and `FindingJsonContext.Default` model
+check-result v1, using separate status, severity, confidence, and evidence-kind
+enums. Required members have no pass/empty-array defaults. The context uses
+explicit JSON names, string enums without numeric fallback, and nullable-member
+checks. As the existing finding schema permits additional properties, additive
+root and evidence fields are ignored. Known values survive reserialization;
+ignored future fields need not survive. Unsupported schema versions are rejected
+by schema validation, which must precede reading the DTO.
+
+`FindingEvidence` carries the schema's optional fields without imposing extra
+per-kind requirements. Its arbitrary `value` retains JSON tokens and precision;
+omitted values use `Undefined`, explicit JSON null uses `Null`. Nullable counts
+preserve absence versus explicit zero. Counts/check versions use signed Int64;
+overflow is a documented reader failure even for a schema-valid integer token.
+
+Fixtures live in `fixtures/check-result/v1/{valid,invalid}/`. Eleven valid inputs
+cover all seven statuses, all seven evidence kinds, meaningful missing-evidence
+limitations, and explicit inapplicability. Twenty invalid payloads and their
+`expectations.json` identify schema diagnostic locations/keywords and required
+reader failures. These are finding validation assertions, not API error mappings.
+Raw JSON snapshots are reviewed against the complete input trees. Additional
+tests cover all 15 severity/confidence pairs, every required root field,
+precision, additive fields, and Int64 overflow.
+
+For fail/warn/inconclusive/error, tests independently prove that evidence alone
+or a limitation alone satisfies the schema; omitting both fails validation. The other
+three statuses may have empty evidence/limitations. The reader itself does not
+enforce that conditional rule. Schema validation cannot judge whether limitation
+text truly explains unavailable evidence or whether a check is heuristic; those
+are future evaluator obligations. Missing telemetry remains inconclusive in its
+fixture; not_applicable has an explicitly known synthetic precondition. No check
+evaluator, telemetry interpretation, reference resolution, I/O, authorization,
+cancellation, idempotency workflow, or runtime redaction is implemented here.
+The documentation reference in the synthetic fixture is illustrative.
